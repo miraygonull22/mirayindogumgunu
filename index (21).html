@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>İyi ki doğdun Miray! 🎂</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;800&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#1b0f2e; --night2:#2d1850; --pink:#ff9ec4; --berry:#e0457b;
+  --cream:#fff3e3; --flame:#ffb627; --mint:#45e0c1; --text:#fff3e3;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{
+  font-family:'Nunito',system-ui,sans-serif;color:var(--text);
+  background:radial-gradient(ellipse at 50% 70%,var(--night2),var(--night) 70%);
+  min-height:100vh;overflow-x:hidden;transition:background 1.2s;
+}
+body.done{background:radial-gradient(ellipse at 50% 20%,#7a2a6b,var(--night2) 60%,var(--night))}
+.stage{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px 16px;text-align:center;position:relative;z-index:2}
+h1{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(2rem,8vw,4.2rem);line-height:1.05}
+#hint{opacity:.8;max-width:30ch}
+
+/* cake */
+.cake{position:relative;width:min(300px,80vw);margin-top:70px}
+.plate{height:14px;width:118%;margin:0 -9%;background:#d9d2e6;border-radius:50%;box-shadow:0 8px 20px #0006}
+.tier{position:relative;margin:0 auto;border-radius:14px 14px 6px 6px}
+.tier::before{content:"";position:absolute;left:0;right:0;top:0;height:26px;border-radius:14px 14px 0 0;
+  background:radial-gradient(circle at 12px 100%,transparent 12px,var(--cream) 13px) 0 0/24px 100%}
+.top{width:62%;height:64px;background:var(--pink);margin-bottom:-2px}
+.bot{width:100%;height:92px;background:var(--berry)}
+.bot::after,.top::after{content:"";position:absolute;inset:auto 8% 14px 8%;height:8px;border-radius:8px;
+  background:repeating-linear-gradient(90deg,var(--mint) 0 10px,transparent 10px 22px);opacity:.9}
+.candles{position:absolute;left:19%;right:19%;top:-58px;display:flex;justify-content:space-between;height:58px}
+.candle{all:unset;cursor:pointer;position:relative;width:12px;height:42px;margin-top:16px;border-radius:3px;
+  background:repeating-linear-gradient(135deg,#fff 0 6px,var(--mint) 6px 12px)}
+.candle:focus-visible{outline:2px solid var(--flame);outline-offset:6px}
+.flame{position:absolute;left:50%;bottom:100%;width:14px;height:24px;margin-left:-7px;margin-bottom:2px;
+  background:radial-gradient(ellipse at 50% 70%,#fff6c4 0 25%,var(--flame) 55%,#ff6a1a);
+  border-radius:50% 50% 50% 50%/65% 65% 35% 35%;transform-origin:50% 100%;
+  box-shadow:0 0 22px 8px #ffb62799;animation:flick .35s ease-in-out infinite alternate;transition:opacity .25s,transform .25s}
+.candle.out .flame{opacity:0;transform:scale(.2) translateY(-8px);animation:none;box-shadow:none}
+.candle::after{content:"";position:absolute;left:50%;bottom:100%;width:4px;height:0;margin-left:-2px;background:#fff5;border-radius:4px;filter:blur(2px)}
+.candle.out::after{animation:smoke 1.6s ease-out}
+@keyframes flick{from{transform:rotate(-4deg) scaleY(.94)}to{transform:rotate(4deg) scaleY(1.06)}}
+@keyframes smoke{0%{height:0;opacity:.9}100%{height:46px;opacity:0;transform:translateY(-30px)}}
+
+.btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+button.b{font:700 1rem 'Nunito',sans-serif;border:0;border-radius:999px;padding:12px 22px;cursor:pointer;
+  background:var(--flame);color:#2b1400;transition:transform .15s}
+button.b.alt{background:transparent;color:var(--text);box-shadow:inset 0 0 0 2px #fff6}
+button.b:hover{transform:translateY(-2px)}
+button.b:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+#meter{width:120px;height:6px;border-radius:6px;background:#fff2;overflow:hidden;display:none}
+#meter i{display:block;height:100%;width:0;background:var(--mint)}
+
+/* message */
+#wish{position:relative;z-index:2;max-width:560px;margin:0 auto;padding:0 20px 80px;text-align:center;display:none}
+#wish.show{display:block;animation:rise .9s ease-out}
+.card{background:#ffffff14;backdrop-filter:blur(6px);border-radius:22px;padding:28px 24px;box-shadow:inset 0 0 0 1.5px #ffffff30;line-height:1.7;font-size:1.1rem}
+.card p+p{margin-top:12px}
+.sig{margin-top:18px;font-family:'Baloo 2',sans-serif;font-size:1.3rem;color:var(--pink)}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:5}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div class="stage" id="stage">
+    <h1 id="title">Miray, bir dilek tut</h1>
+    <p id="hint">Sonra mumları üfle. Mikrofon ya da dokunma, sen seç.</p>
+
+    <div class="cake" aria-label="Doğum günü pastası">
+      <div class="candles" id="candles"></div>
+      <div class="tier top"></div>
+      <div class="tier bot"></div>
+      <div class="plate"></div>
+    </div>
+
+    <div class="btns" id="btns">
+      <button class="b" id="mic">Mikrofonla üfle</button>
+      <button class="b alt" id="blow">Dokunarak üfle</button>
+    </div>
+    <div id="meter"><i></i></div>
+  </div>
+
+  <section id="wish" aria-live="polite">
+    <div class="card" id="msg"></div>
+    <div class="btns"><button class="b alt" id="again">Mumları tekrar yak</button></div>
+  </section>
+</main>
+<button class="b alt" id="snd" aria-label="Sesi aç/kapat" style="position:fixed;top:12px;right:12px;z-index:9;padding:8px 14px">🔊</button>
+<canvas id="fx"></canvas>
+
+<script>
+/* ✏️ BURAYI KENDİNE GÖRE DÜZENLE */
+const NAME = "Miray";
+const SIGNATURE = "– Seni çok seven arkadaşın";
+const MESSAGE = [
+  "İyi ki doğdun Miray! 🎉",
+  "Yeni yaşının sana sağlık, mutluluk ve tam istediğin gibi sürprizler getirmesini diliyorum.",
+  "İyi ki varsın, iyi ki hayatımdasın. Bu yıl hep gülelim!"
+];
+const CANDLE_COUNT = 5;
+
+const candlesEl = document.getElementById('candles');
+const title = document.getElementById('title');
+const hint = document.getElementById('hint');
+const wish = document.getElementById('wish');
+const btns = document.getElementById('btns');
+const meter = document.getElementById('meter');
+let candles = [], micStream = null, raf = 0, finished = false;
+
+function build(){
+  candlesEl.innerHTML = ''; candles = [];
+  for(let i=0;i<CANDLE_COUNT;i++){
+    const c = document.createElement('button');
+    c.className = 'candle'; c.setAttribute('aria-label','Mumu söndür');
+    c.innerHTML = '<i class="flame"></i>';
+    c.addEventListener('click',()=>{audio();putOut(c);});
+    candlesEl.appendChild(c); candles.push(c);
+  }
+  finished = false;
+  document.body.classList.remove('done');
+  wish.classList.remove('show');
+  title.textContent = NAME + ', bir dilek tut';
+  hint.textContent = 'Sonra mumları üfle. Mikrofon ya da dokunma, sen seç.';
+  btns.style.display = '';
+}
+
+/* ses: hepsi tarayıcıda üretiliyor, ses dosyası gerekmiyor */
+let actx = null, muted = false;
+function audio(){
+  if(!actx) actx = new (window.AudioContext||window.webkitAudioContext)();
+  if(actx.state === 'suspended') actx.resume();
+  return actx;
+}
+/* yumuşak ses motoru: ses dosyası yok, hepsi tarayıcıda üretiliyor */
+let bus = null;
+function out(){
+  const a = audio();
+  if(!bus){
+    bus = a.createGain();
+    const d = a.createDelay(); d.delayTime.value = .27;
+    const fb = a.createGain(); fb.gain.value = .3;
+    const wet = a.createGain(); wet.gain.value = .3;
+    bus.connect(a.destination); bus.connect(d); d.connect(fb); fb.connect(d); d.connect(wet); wet.connect(a.destination);
+  }
+  return bus;
+}
+function noiseBuf(dur){
+  const a = audio(), n = Math.floor(a.sampleRate*dur), buf = a.createBuffer(1,n,a.sampleRate), d = buf.getChannelData(0);
+  for(let i=0;i<n;i++) d[i] = Math.random()*2-1;
+  return buf;
+}
+/* nefes: yumuşak girişli, süzülmüş gürültü */
+function breath(when, dur, f0, f1, vol, type='bandpass', q=.7){
+  const a = audio(), t = a.currentTime+when;
+  const s = a.createBufferSource(); s.buffer = noiseBuf(dur+.1);
+  const f = a.createBiquadFilter(); f.type = type; f.Q.value = q;
+  f.frequency.setValueAtTime(f0,t); f.frequency.exponentialRampToValueAtTime(f1,t+dur);
+  const g = a.createGain();
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.linearRampToValueAtTime(vol,t+dur*.25);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+  s.connect(f).connect(g).connect(a.destination); s.start(t); s.stop(t+dur+.1);
+}
+/* müzik kutusu / çan tınısı */
+function bell(freq, when, dur, vol=.13){
+  const a = audio(), t = a.currentTime+when, dest = out();
+  [[1,1],[2,.35],[3,.12],[4.2,.05]].forEach(([m,v])=>{
+    const o = a.createOscillator(), g = a.createGain();
+    o.type = 'sine'; o.frequency.value = freq*m;
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.linearRampToValueAtTime(vol*v,t+.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur/m**.4);
+    o.connect(g).connect(dest); o.start(t); o.stop(t+dur+.1);
+  });
+}
+/* mum söndürme: "fuuu" + kısacık fıs */
+function puffSound(){
+  if(muted) return;
+  breath(0, .55, 1400, 500, .32, 'bandpass', .6);
+  breath(.12, .35, 6000, 3500, .05, 'highpass', .5);
+}
+/* konfeti: yumuşak pop + parıltı */
+function popSound(){
+  if(muted) return;
+  const a = audio(), t = a.currentTime;
+  breath(0, .22, 1800, 300, .6, 'lowpass', .5);
+  const o = a.createOscillator(), g = a.createGain();
+  o.type = 'sine'; o.frequency.setValueAtTime(160,t); o.frequency.exponentialRampToValueAtTime(50,t+.15);
+  g.gain.setValueAtTime(.5,t); g.gain.exponentialRampToValueAtTime(0.0001,t+.18);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t+.2);
+  [1046.5,1318.5,1568,2093].forEach((f,i)=>bell(f,.08+i*.07,.9,.06));
+}
+/* İyi ki doğdun melodisi, müzik kutusu tınısıyla */
+function birthdaySong(){
+  if(muted) return;
+  const B = .46;
+  const m = [[392,.75],[392,.25],[440,1],[392,1],[523.25,1],[493.88,2],
+             [392,.75],[392,.25],[440,1],[392,1],[587.33,1],[523.25,2],
+             [392,.75],[392,.25],[783.99,1],[659.25,1],[523.25,1],[493.88,1],[440,1],
+             [698.46,.75],[698.46,.25],[659.25,1],[523.25,1],[587.33,1],[523.25,2]];
+  let t = 1.2;
+  m.forEach(([f,b])=>{ bell(f,t,Math.max(b*B*2.2,1.1)); t += b*B; });
+}
+
+function putOut(c){
+  if(c.classList.contains('out')) return;
+  c.classList.add('out');
+  puffSound();
+  if(candles.every(x=>x.classList.contains('out'))) celebrate();
+}
+
+function blowAll(){
+  candles.filter(c=>!c.classList.contains('out')).forEach((c,i)=>setTimeout(()=>putOut(c),i*220));
+}
+
+/* mikrofon ile üfleme */
+async function startMic(){
+  try{
+    micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){
+    hint.textContent = 'Mikrofona izin verilmedi, dokunarak üfleyebilirsin.';
+    return;
+  }
+  const ctx = audio();
+  const src = ctx.createMediaStreamSource(micStream);
+  const an = ctx.createAnalyser(); an.fftSize = 512;
+  src.connect(an);
+  const data = new Uint8Array(an.fftSize);
+  meter.style.display = 'block';
+  hint.textContent = 'Şimdi mikrofona doğru üfle! 💨';
+  let strong = 0, last = 0;
+  (function loop(t){
+    an.getByteTimeDomainData(data);
+    let sum = 0;
+    for(const v of data){ const x=(v-128)/128; sum+=x*x; }
+    const rms = Math.sqrt(sum/data.length);
+    meter.firstElementChild.style.width = Math.min(100, rms*400)+'%';
+    strong = rms > 0.12 ? strong+1 : 0;
+    if(strong > 4 && t-last > 260){
+      const next = candles.find(c=>!c.classList.contains('out'));
+      if(next){ putOut(next); last = t; }
+    }
+    if(!finished) raf = requestAnimationFrame(loop);
+  })(0);
+}
+function stopMic(){
+  cancelAnimationFrame(raf);
+  if(micStream){ micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
+  meter.style.display = 'none';
+}
+
+function celebrate(){
+  finished = true; stopMic();
+  document.body.classList.add('done');
+  title.textContent = 'İyi ki doğdun ' + NAME + '! 🎂';
+  hint.textContent = 'Dileğin gerçek olsun ✨';
+  btns.style.display = 'none';
+  document.getElementById('msg').innerHTML =
+    MESSAGE.map(p=>'<p>'+p+'</p>').join('') + '<p class="sig">'+SIGNATURE+'</p>';
+  wish.classList.add('show');
+  confetti(); popSound(); birthdaySong();
+  setTimeout(()=>wish.scrollIntoView({behavior:'smooth',block:'center'}),1200);
+}
+
+/* konfeti */
+const cv = document.getElementById('fx'), g = cv.getContext('2d');
+let parts = [], running = false;
+function size(){ cv.width = innerWidth; cv.height = innerHeight; }
+addEventListener('resize', size); size();
+function confetti(){
+  const cols = ['#ff9ec4','#e0457b','#ffb627','#45e0c1','#fff3e3','#a98bff'];
+  for(let i=0;i<180;i++){
+    parts.push({x:cv.width/2+(Math.random()-.5)*120,y:cv.height*.55,
+      vx:(Math.random()-.5)*16,vy:-Math.random()*16-4,
+      w:6+Math.random()*7,h:4+Math.random()*6,r:Math.random()*6,vr:(Math.random()-.5)*.4,
+      c:cols[i%cols.length]});
+  }
+  if(!running){ running = true; tick(); }
+}
+function tick(){
+  g.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{
+    p.vy += .3; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+    g.save(); g.translate(p.x,p.y); g.rotate(p.r);
+    g.fillStyle = p.c; g.fillRect(-p.w/2,-p.h/2,p.w,p.h); g.restore();
+  });
+  parts = parts.filter(p=>p.y < cv.height+20);
+  if(parts.length) requestAnimationFrame(tick); else { running=false; g.clearRect(0,0,cv.width,cv.height); }
+}
+
+document.getElementById('snd').addEventListener('click',e=>{muted=!muted;e.target.textContent=muted?'🔇':'🔊';});
+document.getElementById('mic').addEventListener('click', startMic);
+document.getElementById('blow').addEventListener('click',()=>{audio();blowAll();});
+document.getElementById('again').addEventListener('click', ()=>{ build(); scrollTo({top:0,behavior:'smooth'}); });
+build();
+</script>
+</body>
+</html>
